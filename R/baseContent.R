@@ -43,7 +43,3 @@ compareBaseContent <- function(seqList, bases, baseOnly=TRUE, pct=FALSE, desc=TR
 	contentVector <- sort(contentVector, decreasing=desc)
 	return(contentVector)
 }
-
-# getPatternContent <- function(seq, pattern, pct=FALSE, baseOnly=TRUE){
-#
-# }

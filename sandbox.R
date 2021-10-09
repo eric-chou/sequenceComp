@@ -23,3 +23,7 @@ seqs_named <- list(s1 = Seq, s2 = Seq2)
 
 compareBaseContent(seqs, c("C", "G"), baseOnly=TRUE, pct=TRUE, desc=TRUE)
 compareBaseContent(seqs_named, c("C", "G"), baseOnly=TRUE, pct=TRUE, desc=FALSE)
+compareBaseContent(Hsapiens, c("C", "G"), baseOnly=TRUE, pct=TRUE, desc=TRUE) # takes a little longer but works
+
+getPatternContent(Seq, "CG", baseOnly=TRUE, ratio=TRUE)
+getPatternContent(Seq2, "TG", baseOnly=TRUE, ratio=FALSE)

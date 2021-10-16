@@ -27,3 +27,5 @@ compareBaseContent(Hsapiens, c("C", "G"), baseOnly=TRUE, pct=TRUE, desc=TRUE) # 
 
 getPatternContent(Seq, "CG", baseOnly=TRUE, ratio=TRUE)
 getPatternContent(Seq2, "TG", baseOnly=TRUE, ratio=FALSE)
+comparePatternContent(seqs, "CG", baseOnly=TRUE, desc=TRUE)
+comparePatternContent(seqs_named, "CG", baseOnly=TRUE, desc=FALSE)

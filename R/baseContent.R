@@ -43,7 +43,3 @@ compareBaseContent <- function(seqList, bases, baseOnly=TRUE, pct=FALSE, desc=TR
 	contentVector <- sort(contentVector, decreasing=desc)
 	return(contentVector)
 }
-
-# windowBaseContent <- function(seq, bases, baseOnly=TRUE, out=c("histogram", "boxplot", "vector")){
-
-# }

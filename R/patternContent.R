@@ -4,7 +4,7 @@ library(dplyr)
 
 #' @name getPatternContent
 #' @title **Get Pattern Content**
-#' @description Computes the observed content in a sequence for a given pattern of bases, as well as the expected content for that pattern.
+#' @description This function computes the observed content in a sequence or a StringSet of multiple sequences for a given pattern of bases, as well as the expected content for that pattern.
 #' @param seq (required): Biostring sequence, or a StringSet of multiple Biostring sequences for which the content is to be calculated.
 #' @param pattern (required): String for a contiguous pattern of bases that are to be used for calculating their observed and expected occurrences in the sequence(s) provided. 
 #' @param baseOnly (default TRUE): boolean for if the user wants to calculate the content on using the base pair characters (ex. A, T, C, G for DNA; A, U, C, G for RNA) in the sequence, or from all characters in the sequence.
@@ -24,7 +24,7 @@ getPatternContent <- function(seq, pattern, baseOnly=TRUE){
 		}
 	}
 	else{
-		stop("Sequence inputted is of class:", inputClass, "\nPlease provide a DNAString, RNAString, DNAStringSet, or RNAStringSet for the input sequence(s).")
+		stop("Sequence inputted is of class: ", inputClass, "\nPlease provide a DNAString, RNAString, DNAStringSet, or RNAStringSet for the input sequence(s).")
 	}
 	# observed count 
 	n <- vcountPattern(pattern, seq)
@@ -53,7 +53,7 @@ getPatternContent <- function(seq, pattern, baseOnly=TRUE){
 
 #' @name genomePatternContent
 #' @title **Genome Pattern Content**
-#' @description Computes the ratio of observed to expected occurrences for a contiguous pattern of bases for each sequence in a genome or a list of sequences. These ratios are then outputted in either ascending or descending order of content.
+#' @description This function omputes the ratio of observed to expected occurrences for a contiguous pattern of bases for each sequence in a genome or a list of sequences. These ratios are then outputted in either ascending or descending order of content.
 #' @param seqList (required): BSgenome or a list of sequences, each for which the content is to be calculated. It is recommended that the elements of this data structure be named for readability of output. Otherwise, the output will provide the corresponding index occupied by the sequence in the original datas tructure that was provided alongside its calculated ratio.
 #' @param pattern (required): String for a contiguous pattern of bases that are to be used for calculating their observed to expected ratios in each sequence provided.
 #' @param baseOnly (default TRUE): boolean for if the user wants to calculate the content on using the base pair characters (ex. A, T, C, G for DNA) in the sequence, or from all characters in the sequence.

@@ -4,7 +4,7 @@ library(dplyr)
 
 #' @name getBaseContent
 #' @title **Get Base Content**
-#' @description Computes the content in a sequence for either a base or a vector of individual bases.
+#' @description This function computes the content in a sequence or a StringSet of multiple sequences for either a base or a vector of individual bases.
 #' @param seq (required): Biostring sequence, or a StringSet of multiple Biostring sequences for which the content is to be calculated.
 #' @param bases (required): Character or vector of characters for bases that are to be used for calculating their content proportion in the sequence(s) provided. If a vector of characters is provided, this function finds the proportion of the sequence that is any one of the bases (i.e. not necessarily in a contiguous manner).
 #' @param baseOnly (default TRUE): boolean for if the user wants to calculate the content on using the base pair characters (ex. A, T, C, G for DNA; A, U, C, G for RNA) in the sequence, or from all characters in the sequence.
@@ -36,7 +36,7 @@ getBaseContent <- function(seq, bases, baseOnly=TRUE, pct=FALSE) {
 
 #' @name genomeBaseContent
 #' @title **Genome Base Content**
-#' @description Computes the content for each sequence in a genome for either a base or a vector of individual bases. This allows the user to compare between distinct sequences and identify which of the sequences provided has the highest or lowest base content for a given genome. For instance, a user may be interested in finding which chromosome in a genome has the highest CG content.
+#' @description This function computes the content for each sequence in a genome for either a base or a vector of individual bases. This allows the user to compare between distinct sequences and identify which of the sequences provided has the highest or lowest base content for a given genome. For instance, a user may be interested in finding which chromosome in a genome has the highest CG content.
 #' @param seqList (required): BSgenome or a list of sequences, each for which the content is to be calculated. It is recommended that the elements of this data structure be named for readability of output. Otherwise, the output will provide the corresponding index occupied by the sequence in the original data structure that was provided alongside its base content calculation.
 #' @param bases (required): Character or vector of characters for bases that are to be used for calculating their content proportion in the sequence provided. If a vector of characters is provided, this function finds the proportion of the sequence that is any one of the bases (i.e. necessarily in a contiguous manner).
 #' @param baseOnly (default TRUE): boolean for if the user wants to calculate the content on using the base pair characters (ex. A, T, C, G for DNA) in the sequence, or from all characters in the sequence.

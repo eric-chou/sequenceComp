@@ -68,9 +68,13 @@ hist(pCG[pCG>0],100)
 density(pCG[pCG>0])
 
 pCG1 <- windowBaseContent(Seq, 1000, c("C", "G"), zero.rm=TRUE, pct=FALSE)
-pCG1 %>% hist(100)
+pCG1 %>% hist(breaks=100, main="Histogram of GC base content in 1000 bp windows")
 density(pCG1) %>% plot()
 
 obsExpCG <- windowPatternContent(Seq, 1000, "CG", na.rm=TRUE)
-obsExpCG %>% hist(100)
+obsExpCG %>% hist(breaks=100, main="Histogram of CG dinucleotide obs/expected ratios in 1000 bp windows")
 density(obsExpCG) %>% plot()
+
+log.obsExpCG <- windowPatternContent(Seq, 1000, "CG", na.rm=TRUE, log=TRUE)
+log.obsExpCG %>% hist(breaks=100, main="Histogram of CG dinucleotide logged obs/expected ratios in 1000 bp windows")
+density(log.obsExpCG) %>% plot()

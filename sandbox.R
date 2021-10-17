@@ -67,6 +67,10 @@ pCG=(ff[,"C"]+ff[,"G"])/rowSums(ff) # proportion of C or G in each 1000 bp windo
 hist(pCG[pCG>0],100)
 density(pCG[pCG>0])
 
-pCG1 <- windowBaseContent(Seq, 1000, c("C", "G"), pct=FALSE)
-pCG1[pCG1>0] %>% hist(100)
-density(pCG1[pCG1>0])
+pCG1 <- windowBaseContent(Seq, 1000, c("C", "G"), zero.rm=TRUE, pct=FALSE)
+pCG1 %>% hist(100)
+density(pCG1) %>% plot()
+
+obsExpCG <- windowPatternContent(Seq, 1000, "CG", na.rm=TRUE)
+obsExpCG %>% hist(100)
+density(obsExpCG) %>% plot()

@@ -4,7 +4,7 @@ library(dplyr)
 
 #' @name getPatternContent
 #' @title **Get Pattern Content**
-#' @description This function computes the observed content in a sequence or a StringSet of multiple sequences for a given pattern of bases, as well as the expected content for that pattern.
+#' @description This function computes the ratio of observed to expected content for a specific contiguous pattern of bases in a sequence or a StringSet of multiple sequences.
 #' @param seq (required): Biostring sequence, or a StringSet of multiple Biostring sequences for which the content is to be calculated.
 #' @param pattern (required): String for a contiguous pattern of bases that are to be used for calculating their observed and expected occurrences in the sequence(s) provided. 
 #' @param baseOnly (default TRUE): boolean for if the user wants to calculate the content on using the base pair characters (ex. A, T, C, G for DNA; A, U, C, G for RNA) in the sequence, or from all characters in the sequence.

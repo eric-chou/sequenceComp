@@ -20,5 +20,5 @@ compareBaseContent(seqList, bases, baseOnly = TRUE, pct = FALSE)
 Named vector of proportions or percentages for base content of each provided sequence.
 }
 \description{
-Computes the content for each sequence in a genome for either a base or a vector of individual bases. This allows the user to compare between distinct sequences and identify which of the sequences provided has the highest or lowest base content for a given genome. For instance, a user may be interested in finding which chromosome in a genome has the highest CG content.
+This function computes the content for each sequence in a genome for either a base or a vector of individual bases. This allows the user to compare between distinct sequences and identify which of the sequences provided has the highest or lowest base content for a given genome. For instance, a user may be interested in finding which chromosome in a genome has the highest CG content.
 }

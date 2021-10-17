@@ -17,5 +17,5 @@ getPatternContent(seq, pattern, baseOnly = TRUE)
 Unlike getBaseContent, this provides not proportions or percentages for each sequence, but either a ratio of observed to expected counts.
 }
 \description{
-Computes the observed content in a sequence for a given pattern of bases, as well as the expected content for that pattern.
+This function computes the ratio of observed to expected content for a specific contiguous pattern of bases in a sequence or a StringSet of multiple sequences.
 }

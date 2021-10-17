@@ -18,5 +18,5 @@ comparePatternContent(seqList, pattern, baseOnly = TRUE)
 Named vector of observed to expected ratios of pattern occurrences for each provided sequence.
 }
 \description{
-Computes the ratio of observed to expected occurrences for a contiguous pattern of bases for each sequence in a genome or a list of sequences. These ratios are then outputted in either ascending or descending order of content.
+This function omputes the ratio of observed to expected occurrences for a contiguous pattern of bases for each sequence in a genome or a list of sequences. These ratios are then outputted in either ascending or descending order of content.
 }

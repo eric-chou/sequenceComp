@@ -8,8 +8,9 @@ library(dplyr)
 #' @param seq (required): Biostring sequence, or a StringSet of multiple Biostring sequences for which the content is to be calculated.
 #' @param pattern (required): String for a contiguous pattern of bases that are to be used for calculating their observed and expected occurrences in the sequence(s) provided. 
 #' @param baseOnly (default TRUE): boolean for if the user wants to calculate the content on using the base pair characters (ex. A, T, C, G for DNA; A, U, C, G for RNA) in the sequence, or from all characters in the sequence.
+#' @param log (default FALSE): boolean for if the user wishes to natural log transform the returned vector.
 #' @return Unlike getBaseContent, this provides not proportions or percentages for each sequence, but either a ratio of observed to expected counts.
-getPatternContent <- function(seq, pattern, baseOnly=TRUE){
+getPatternContent <- function(seq, pattern, baseOnly=TRUE, log=FALSE){
 	inputClass <- class(seq)[1]
 	# convert into StringSet in order to normalize vectorized functionality
 	if(inputClass == "DNAString"){
@@ -48,6 +49,7 @@ getPatternContent <- function(seq, pattern, baseOnly=TRUE){
 	out <- n / expected
 	names(out) <- names(seq)
 
+	if(log) out <- log(out)
 	return(out)
 }
 
@@ -57,8 +59,9 @@ getPatternContent <- function(seq, pattern, baseOnly=TRUE){
 #' @param seqList (required): BSgenome or a list of sequences, each for which the content is to be calculated. It is recommended that the elements of this data structure be named for readability of output. Otherwise, the output will provide the corresponding index occupied by the sequence in the original datas tructure that was provided alongside its calculated ratio.
 #' @param pattern (required): String for a contiguous pattern of bases that are to be used for calculating their observed to expected ratios in each sequence provided.
 #' @param baseOnly (default TRUE): boolean for if the user wants to calculate the content on using the base pair characters (ex. A, T, C, G for DNA) in the sequence, or from all characters in the sequence.
+#' @param log (default FALSE): boolean for if the user wishes to natural log transform the returned vector.
 #' @return Named vector of observed to expected ratios of pattern occurrences for each provided sequence.
-comparePatternContent <- function(seqList, pattern, baseOnly=TRUE){
+comparePatternContent <- function(seqList, pattern, baseOnly=TRUE, log=FALSE){
 	if(is.null(names(seqList))){
 		message("The sequences in the genome or list provided are unnamed. If you wish to directly compare sequences, it is recommended that the input is named for readability.")
 	}
@@ -72,5 +75,7 @@ comparePatternContent <- function(seqList, pattern, baseOnly=TRUE){
 	}
 
 	names(ratioVector) <- idxVector
+
+	if(log) ratioVector <- log(ratioVector)
 	return(ratioVector)
 }

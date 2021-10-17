@@ -38,7 +38,7 @@ windowBaseContent <- function(seq, windowSize, bases, zero.rm=FALSE, pct=FALSE){
 #' @param windowSize (required): The size of each window, in base pairs.
 #' @param pattern (required): String for a contiguous pattern of bases that are to be used for calculating their observed and expected occurrences in each created window from the sequence.
 #' @param na.rm (default FALSE): boolean for if the user wishes to remove all ratios in the returned vector that are NaN.
-#' @param log (default FALSE): boolean for if the user wishes to log transform the returned vector.
+#' @param log (default FALSE): boolean for if the user wishes to natural log transform the returned vector.
 #' @return A vector of observed to expected ratios for base content in each window of the user-specified size for a sequence.
 windowPatternContent <- function(seq, windowSize, pattern, na.rm=FALSE, log=FALSE){
 	inputClass <- class(seq)[1]
@@ -56,8 +56,7 @@ windowPatternContent <- function(seq, windowSize, pattern, na.rm=FALSE, log=FALS
 		stop("Sequence inputted is of class: ", inputClass, "\nPlease provide a DNAString or RNAString for the input sequence.")
 	}
 
-	out <- getPatternContent(seq.set, pattern, baseOnly=FALSE) # baseOnly is forced to be false since the full window size must be considered the denominator regardless of if they are base pair characteres
+	out <- getPatternContent(seq.set, pattern, baseOnly=FALSE, log=log) # baseOnly is forced to be false since the full window size must be considered the denominator regardless of if they are base pair characteres
 	if(na.rm) out <- out[!is.nan(out)]
-	if(log) out <- log(out)
 	return(out)
 }

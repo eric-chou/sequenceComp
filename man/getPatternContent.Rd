@@ -4,19 +4,17 @@
 \alias{getPatternContent}
 \title{\strong{Get Pattern Content}}
 \usage{
-getPatternContent(seq, pattern, baseOnly = TRUE, ratio = FALSE)
+getPatternContent(seq, pattern, baseOnly = TRUE)
 }
 \arguments{
-\item{seq}{(required): Biostring sequence in which the content is to be calculated.}
+\item{seq}{(required): Biostring sequence, or a StringSet of multiple Biostring sequences for which the content is to be calculated.}
 
-\item{pattern}{(required): String for a contiguous pattern of bases that are to be used for calculating their observed and expected occurrences in the sequence provided.}
+\item{pattern}{(required): String for a contiguous pattern of bases that are to be used for calculating their observed and expected occurrences in the sequence(s) provided.}
 
-\item{baseOnly}{(default TRUE): boolean for if the user wants to calculate the content on using the base pair characters (ex. A, T, C, G for DNA) in the sequence, or from all characters in the sequence.}
-
-\item{ratio}{(default FALSE): boolean for if the user wishes to return the output as a named list for observed and expected counts (FALSE, default) or a ratio of observed over expected (TRUE).}
+\item{baseOnly}{(default TRUE): boolean for if the user wants to calculate the content on using the base pair characters (ex. A, T, C, G for DNA; A, U, C, G for RNA) in the sequence, or from all characters in the sequence.}
 }
 \value{
-Unlike getBaseContent, this provides not a proportion or percentage, but either a list (default) or the ratio of observed to expected.
+Unlike getBaseContent, this provides not proportions or percentages for each sequence, but either a ratio of observed to expected counts.
 }
 \description{
 Computes the observed content in a sequence for a given pattern of bases, as well as the expected content for that pattern.

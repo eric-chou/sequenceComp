@@ -4,7 +4,7 @@
 \alias{getPatternContent}
 \title{\strong{Get Pattern Content}}
 \usage{
-getPatternContent(seq, pattern, baseOnly = TRUE)
+getPatternContent(seq, pattern, baseOnly = TRUE, log = FALSE)
 }
 \arguments{
 \item{seq}{(required): Biostring sequence, or a StringSet of multiple Biostring sequences for which the content is to be calculated.}
@@ -12,6 +12,8 @@ getPatternContent(seq, pattern, baseOnly = TRUE)
 \item{pattern}{(required): String for a contiguous pattern of bases that are to be used for calculating their observed and expected occurrences in the sequence(s) provided.}
 
 \item{baseOnly}{(default TRUE): boolean for if the user wants to calculate the content on using the base pair characters (ex. A, T, C, G for DNA; A, U, C, G for RNA) in the sequence, or from all characters in the sequence.}
+
+\item{log}{(default FALSE): boolean for if the user wishes to natural log transform the returned vector.}
 }
 \value{
 Unlike getBaseContent, this provides not proportions or percentages for each sequence, but either a ratio of observed to expected counts.

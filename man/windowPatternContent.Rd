@@ -4,7 +4,7 @@
 \alias{windowPatternContent}
 \title{\strong{Window Pattern Content}}
 \usage{
-windowPatternContent(seq, windowSize, pattern, na.rm = FALSE)
+windowPatternContent(seq, windowSize, pattern, na.rm = FALSE, log = FALSE)
 }
 \arguments{
 \item{seq}{(required): Biostring sequence that is to be split into windows, in which the base content is to be calculated for each window.}
@@ -14,6 +14,8 @@ windowPatternContent(seq, windowSize, pattern, na.rm = FALSE)
 \item{pattern}{(required): String for a contiguous pattern of bases that are to be used for calculating their observed and expected occurrences in each created window from the sequence.}
 
 \item{na.rm}{(default FALSE): boolean for if the user wishes to remove all ratios in the returned vector that are NaN.}
+
+\item{log}{(default FALSE): boolean for if the user wishes to natural log transform the returned vector.}
 }
 \value{
 A vector of observed to expected ratios for base content in each window of the user-specified size for a sequence.

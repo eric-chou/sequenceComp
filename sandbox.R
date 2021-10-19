@@ -1,7 +1,8 @@
-
+library(sequenceComp)
 library(BSgenome)
 available.genomes()
 library(BSgenome.Hsapiens.UCSC.hg19)
+library(BSgenome.Btaurus.UCSC.bosTau3)
 
 ### get sequence for chromosome 1
 Seq=Hsapiens[["chr1"]]
@@ -27,8 +28,8 @@ getBaseContent(seqs_named, c("C", "G"), baseOnly=FALSE, pct=FALSE)
 
 compareBaseContent(list(Seq, Seq2), c("C", "G"), baseOnly=TRUE, pct=TRUE)
 Hsapiens.GCcontent <- compareBaseContent(Hsapiens, c("C", "G"), baseOnly=TRUE, pct=FALSE) # takes a bit of time but works
-hist(Hsapiens.GCcontent) # visualize for each chromosome
-sort(Hsapiens.GCcontent, decreasing=TRUE) # sort chromosomes by highest GC content
+sort(Hsapiens.GCcontent, decreasing=TRUE) # find highest to lowest GC content in the Hsapiens genome
+hist(Hsapiens.GCcontent, main="Histogram of GC content for each chromosome in the Hsapiens genome") # visualize for each chromosome
 
 ###########################################################################
 ############### PATTERN CONTENT
@@ -55,7 +56,10 @@ getPatternContent(seqs_named, "TG", baseOnly=TRUE)
 
 comparePatternContent(seqs, "CG", baseOnly=TRUE)
 comparePatternContent(seqs_named, "CG", baseOnly=TRUE)
-comparePatternContent(Hsapiens, "CG", baseOnly=TRUE)
+
+Hsapiens.obsExpCG <- comparePatternContent(Hsapiens, "CG", baseOnly=TRUE, log=TRUE)
+sort(Hsapiens.obsExpCG, decreasing=TRUE) # sort chromosomes by highest CG dinucleotide content
+Hsapiens.obsExpCG %>% hist(main="Histogram of CG dinucleotide obs/expected ratios for each chromosome in the Hsapiens genome")
 
 ###########################################################################
 ############### WINDOW PATTERN CONTENT

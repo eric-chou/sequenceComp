@@ -1,5 +1,5 @@
 library(BSgenome)
-library(GenomicFeatures)
+library(Biostrings)
 library(dplyr)
 
 #' @name getPatternContent
@@ -53,10 +53,10 @@ getPatternContent <- function(seq, pattern, baseOnly=TRUE, log=FALSE){
 	return(out)
 }
 
-#' @name genomePatternContent
-#' @title **Genome Pattern Content**
+#' @name comparePatternContent
+#' @title **Compare Pattern Content**
 #' @description This function omputes the ratio of observed to expected occurrences for a contiguous pattern of bases for each sequence in a genome or a list of sequences. These ratios are then outputted in either ascending or descending order of content.
-#' @param seqList (required): BSgenome or a list of sequences, each for which the content is to be calculated. It is recommended that the elements of this data structure be named for readability of output. Otherwise, the output will provide the corresponding index occupied by the sequence in the original datas tructure that was provided alongside its calculated ratio.
+#' @param seqList (required): BSgenome object or a list of sequences, each for which the content is to be calculated. It is recommended that the elements of this data structure be named for readability of output. Otherwise, the output will provide the corresponding index occupied by the sequence in the original datas tructure that was provided alongside its calculated ratio.
 #' @param pattern (required): String for a contiguous pattern of bases that are to be used for calculating their observed to expected ratios in each sequence provided.
 #' @param baseOnly (default TRUE): boolean for if the user wants to calculate the content on using the base pair characters (ex. A, T, C, G for DNA) in the sequence, or from all characters in the sequence.
 #' @param log (default FALSE): boolean for if the user wishes to natural log transform the returned vector.

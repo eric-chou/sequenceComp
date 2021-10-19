@@ -1,4 +1,5 @@
 library(BSgenome)
+library(Biostrings)
 library(dplyr)
 
 #' @name windowBaseContent

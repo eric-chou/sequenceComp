@@ -75,7 +75,7 @@ contentTable <- bind_rows(
   compareBaseContent(seqs, c("A", "T"), baseOnly=TRUE, pct=FALSE)
 ) %>% as.data.frame()
 rownames(contentTable) <- c("CG", "TG", "CT", "AC", "AG", "AT")
-contentTable %>% kbl() %>% kable_minimal(full_width=F)
+contentTable %>% kbl(caption="Pairwise base contents for human and cow chromosomes") %>% kable_minimal(full_width=F)
 ```
 
 # Exploring pattern contents in human and cow sequences
@@ -111,7 +111,7 @@ contentTable <- bind_rows(
   comparePatternContent(seqs, "AT", baseOnly=TRUE),
 ) %>% as.data.frame()
 rownames(contentTable) <- c("CG", "TG", "CT", "AC", "AG", "AT")
-contentTable %>% kbl() %>% kable_minimal(full_width=F)
+contentTable %>% kbl(caption="Pairwise pattern contents for human and cow chromosomes") %>% kable_minimal(full_width=F)
 ```
 
 # Exploring distributions of contents for windows within human and cow sequences
@@ -122,7 +122,7 @@ To obtain more granular assessments of base or pattern contents within a sequenc
 
 We can use the vector output of **windowBaseContent** listing GC content for each 1000 bp window to characterize the distribution of these proportions. The histograms below show that this proportion is centered around 0.4 for the X chromosomes in both humans and cows.
 
-```{r}
+```{r fig.cap="Comparing per-1000 bp window GC base content"}
 human.X.pCG <- windowBaseContent(Hsapiens.X, 1000, c("C", "G"), zero.rm=TRUE, pct=FALSE)
 cow.X.pCG <- windowBaseContent(Btaurus.X, 1000, c("C", "G"), zero.rm=TRUE, pct=FALSE)
 
@@ -135,7 +135,7 @@ cow.X.pCG %>% hist(breaks=100, main="Cow X chromosome GC base content")
 
 Using the vector output of **windowPatternContent**, the distribution can again be characterized for the ratio of CG dinucleotide observed to expected counts for each 1000 bp window. Using logged ratios, we observe that the distribution of these ratios are strongly right skewed, indicating that the occurence of CG's are highly concentrated in a small number of 1000 bp windows but otherwise sparse in most other windows. 
 
-```{r}
+```{r fig.cap="Comparing per-1000 bp CG dinucleotide log obs/expected ratios"}
 human.X.logObsExpCG <- windowPatternContent(Hsapiens.X, 1000, "CG", na.rm=TRUE, log=TRUE)
 cow.X.logObsExpCG <- windowPatternContent(Btaurus.X, 1000, "CG", na.rm=TRUE, log=TRUE)
 
@@ -148,7 +148,7 @@ cow.X.logObsExpCG %>% hist(breaks=100, main="Cow X chromosome CG dinucleotide lo
 
 We can also demonstrate that the functionality of comparing base or pattern content can be scaled for entire genomes. Using all chromosome available in a *Homo sapiens* genome provided by `BSgenome`, we can assess how GC content or ratio of observed to expected CG dinucleotide counts vary across all sequences in a genome, as depicted in the histograms below.  
 
-```{r}
+```{r fig.cap="GC base content and CG dinucleotide obs/expected ratios across all human chromosomes"}
 Hsapiens.GCbasecontent <- compareBaseContent(Hsapiens, c("C", "G"), baseOnly=TRUE, pct=FALSE)
 Hsapiens.CGpatterncontent <- comparePatternContent(Hsapiens, "CG", baseOnly=TRUE)
 

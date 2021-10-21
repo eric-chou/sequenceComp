@@ -2,8 +2,7 @@ Package: sequenceComp
 Title: Characterize the contents of DNA or RNA sequences
 Version: 1.0.0
 Authors@R: 
-    person("Eric", "Chou", , "eric.chou@emory.edu", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+    person("Eric", "Chou", , "eric.chou@emory.edu", role = c("aut", "cre"))
 Description: The goal of the sequenceComp R package is to facilitate the characterization of DNA or RNA sequences and comparing their contents. This package works in concert with objects and functions inherited from the Biostrings package. The functions implemented by sequenceComp expedite and streamline the exploration of DNA or RNA sequences by characterizing their base pair compositions in a flexible, user-specified manner. This package also allows the user to easily compare the compositions of sets of sequences or ranges of a specific length within a single sequence.
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license

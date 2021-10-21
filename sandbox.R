@@ -1,4 +1,5 @@
 library(sequenceComp)
+library(dplyr)
 library(BSgenome)
 available.genomes()
 library(BSgenome.Hsapiens.UCSC.hg19)

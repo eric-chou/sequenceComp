@@ -10,6 +10,8 @@ library(dplyr)
 #' @param baseOnly (default TRUE): boolean for if the user wants to calculate the content on using the base pair characters (ex. A, T, C, G for DNA; A, U, C, G for RNA) in the sequence, or from all characters in the sequence.
 #' @param pct (default FALSE): boolean for if the user wishes to return the output as a percentage (TRUE) or proportion (FALSE, default).
 #' @return Proportion or percentage for the base content of the provided base(s).
+#' @export
+#'
 getBaseContent <- function(seq, bases, baseOnly=TRUE, pct=FALSE) {
 	freq <- alphabetFrequency(seq, baseOnly=baseOnly)
 	# single sequences will give frequencies as a one dimensional list. StringSet will be matrix
@@ -42,6 +44,8 @@ getBaseContent <- function(seq, bases, baseOnly=TRUE, pct=FALSE) {
 #' @param baseOnly (default TRUE): boolean for if the user wants to calculate the content on using the base pair characters (ex. A, T, C, G for DNA) in the sequence, or from all characters in the sequence.
 #' @param pct (default FALSE): boolean for if the user wishes to return the output as a percentage (TRUE) or proportion (FALSE, default).
 #' @return Named vector of proportions or percentages for base content of each provided sequence.
+#' @export
+#'
 compareBaseContent <- function(seqList, bases, baseOnly=TRUE, pct=FALSE) {
 	if(is.null(names(seqList))){
 		message("The sequences in the genome or list provided are unnamed. If you wish to directly compare sequences, it is recommended that the input is named for readability.")

@@ -11,6 +11,8 @@ library(dplyr)
 #' @param zero.rm (default FALSE): boolean for if the user wishes to remove all proportions or percentages in the returned vector that are equal to zero.
 #' @param pct (default FALSE): boolean for if the user wishes to return the output as a percentage (TRUE) or proportion (FALSE, default).
 #' @return A vector of proportions or percentages for base content in each window of the user-specified size for a sequence.
+#' @export
+#'
 windowBaseContent <- function(seq, windowSize, bases, zero.rm=FALSE, pct=FALSE){
 	inputClass <- class(seq)[1]
 	# find start indices for each window, removing the last index so that all windows are equal size
@@ -41,6 +43,8 @@ windowBaseContent <- function(seq, windowSize, bases, zero.rm=FALSE, pct=FALSE){
 #' @param na.rm (default FALSE): boolean for if the user wishes to remove all ratios in the returned vector that are NaN.
 #' @param log (default FALSE): boolean for if the user wishes to natural log transform the returned vector.
 #' @return A vector of observed to expected ratios for base content in each window of the user-specified size for a sequence.
+#' @export
+#'
 windowPatternContent <- function(seq, windowSize, pattern, na.rm=FALSE, log=FALSE){
 	inputClass <- class(seq)[1]
 	# find start indices for each window, removing the last index so that all windows are equal size

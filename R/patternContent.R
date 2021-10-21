@@ -10,6 +10,8 @@ library(dplyr)
 #' @param baseOnly (default TRUE): boolean for if the user wants to calculate the content on using the base pair characters (ex. A, T, C, G for DNA; A, U, C, G for RNA) in the sequence, or from all characters in the sequence.
 #' @param log (default FALSE): boolean for if the user wishes to natural log transform the returned vector.
 #' @return Unlike getBaseContent, this provides not proportions or percentages for each sequence, but either a ratio of observed to expected counts.
+#' @export
+#'
 getPatternContent <- function(seq, pattern, baseOnly=TRUE, log=FALSE){
 	inputClass <- class(seq)[1]
 	# convert into StringSet in order to normalize vectorized functionality
@@ -61,6 +63,8 @@ getPatternContent <- function(seq, pattern, baseOnly=TRUE, log=FALSE){
 #' @param baseOnly (default TRUE): boolean for if the user wants to calculate the content on using the base pair characters (ex. A, T, C, G for DNA) in the sequence, or from all characters in the sequence.
 #' @param log (default FALSE): boolean for if the user wishes to natural log transform the returned vector.
 #' @return Named vector of observed to expected ratios of pattern occurrences for each provided sequence.
+#' @export
+#'
 comparePatternContent <- function(seqList, pattern, baseOnly=TRUE, log=FALSE){
 	if(is.null(names(seqList))){
 		message("The sequences in the genome or list provided are unnamed. If you wish to directly compare sequences, it is recommended that the input is named for readability.")

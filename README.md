@@ -8,6 +8,8 @@ After loading the `sequenceComp.Rproj` The R package can be loaded into the user
 
 If the user wishes to continue using `sequenceComp` in future R sessions without having to reload the package into memory, they can install the package using `devtools::install()`. Then, the package will be added to the user's R system library from which the package can be loaded using `library("sequenceComp")`.
 
+This package can also be installed from Github using `devtools::install_github("eric-chou/sequenceComp")`
+
 # List of functions
 
 After installation, the user can call `?nameOfFunction` within R for more detailed documentation.

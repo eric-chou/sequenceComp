@@ -1,6 +1,9 @@
 ---
-title: "introduction"
+title: "Demonstration of sequenceComp"
+author: "Eric Chou"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: rmarkdown::html_vignette
+# output: pdf_document
 vignette: >
   %\VignetteIndexEntry{introduction}
   %\VignetteEngine{knitr::rmarkdown}
@@ -14,6 +17,142 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+Load packages and genomes
+
+```{r setup, message=FALSE}
 library(sequenceComp)
+library(dplyr)
+library(kableExtra)
+library(BSgenome)
+library(BSgenome.Hsapiens.UCSC.hg19)
+library(BSgenome.Btaurus.UCSC.bosTau3)
+```
+
+# Introduction - What is sequenceComp?
+
+The goal of the `sequenceComp` R package is to facilitate the characterization of DNA or RNA sequences and comparing their contents. This package works in concert with objects and functions inherited from the `Biostrings` package. The functions implemented by `sequenceComp` expedite and streamline the exploration of DNA or RNA sequences by characterizing their base pair compositions in a flexible, user-specified manner. This package also allows the user to easily compare the compositions of sets of sequences or ranges of a specific length within a single sequence. 
+
+This vignette therefore illustrates potential use cases for the functions implemented in by the `sequenceComp` package. Such use cases include exploring the base content of a user-specified set of bases in individual sequences (using **getBaseContent**), or expanding this calculation to multiple sequences in order to compare between different sequences (using **compareBaseContent**). Similar operations can be conducted to investigate pattern content. In DNA or RNA sequences, some contiguous patterns can occur less often than expected, such as "CG" dinucleotide pairs due to methylation of cytosine bases. As such, this package can measure the ratio of observed to expected counts of occurrences of specific patterns of bases in either individual sequences (using **getPatternContent**), or expand this operation to assess this ratio across multiple sequences (using **comparePatternContent**).
+
+Using this package, the user can also specify a window size (n) for dividing a given DNA or RNQ sequence into segments, the length for which is equal to the specified size. For each window of n base pairs, the base content (using **windowBaseContent**) or the pattern content (using **windowPatternContent**) can be calculated. These analyses are useful for more minutely analyzing how bases or multinucleotide patterns of multiple bases are distributed across a specific sequence.
+
+Overall, this vignette demonstrates the utility of more compact code for selecting which patterns or sets of nucleotides to characterize in a sequence. The flexibility of inputting a set of multiple sequences also allows for more streamlined comparisons, with the functionality scaling up to allowing characterization of an entire genome using just one line of code.
+
+`sequenceComp` Github page: https://github.com/eric-chou/sequenceComp
+
+# Exploring base contents in human and cow sequences
+
+In this vignette, we will explore how base contents compare between chromosomes from *Homo sapiens* (human) and *Bos taurus* (cow) genomes. Using the infrastructure for genome data provided by the `BSgenome` package, sequences for each chromosome in the genomes for humans, cows, and other species can be isolated. The Biostring objects for these sequences can be used with this package for finding and comparing their base contents.
+
+### Base content of X chromosomes
+
+We can select X chromosomes, which are the sex-determining chromosome that all mammals have in their genome, out of the human and cow genomes. The proportion of these sequences occupied by C or G nucleotides can be calculated using **getBaseContent**. As seen from the output below, we find that the although the human X chromosome has many more total bases in its sequence, both have similar makeup of C and G nucleotides of around 40% for each sequence.
+
+```{r}
+Hsapiens.X <- Hsapiens$chrX
+Btaurus.X <- Btaurus$chrX
+getBaseContent(Hsapiens.X, c("C", "G"), baseOnly=TRUE, pct=TRUE)
+getBaseContent(Btaurus.X, c("C", "G"), baseOnly=TRUE, pct=TRUE)
+```
+
+### Comparing base content in a set of sequences
+
+The characterization can also be expanded to a set of multiple sequences. Here, we sample the first two chromosomes for each species alongside the X chromosomes to provide some more context of how GC content may compare elsewhere. These are combined into a named list and converted to a `DNAStringSet` object to serve as an input for the **compareBaseContent** function. We can also look at how all other pairwise base contents compare to GC contents for a total of 6 sets of base content proportions. The table below compiles these contents and shows that GC content is noticeably less than all other pairs of bases.
+
+```{r}
+Hsapiens.1 <- Hsapiens$chr1
+Btaurus.1 <- Btaurus$chr1
+Hsapiens.2 <- Hsapiens$chr2
+Btaurus.2 <- Btaurus$chr2
+seqs <- list(human.1=Hsapiens.1, human.2=Hsapiens.2, human.X=Hsapiens.X,
+             cow.1=Btaurus.1, cow.2=Btaurus.2, cow.X=Btaurus.X) %>% DNAStringSet()
+contentTable <- bind_rows(
+  compareBaseContent(seqs, c("C", "G"), baseOnly=TRUE, pct=FALSE),
+  compareBaseContent(seqs, c("T", "G"), baseOnly=TRUE, pct=FALSE),
+  compareBaseContent(seqs, c("C", "T"), baseOnly=TRUE, pct=FALSE),
+  compareBaseContent(seqs, c("A", "C"), baseOnly=TRUE, pct=FALSE),
+  compareBaseContent(seqs, c("A", "G"), baseOnly=TRUE, pct=FALSE),
+  compareBaseContent(seqs, c("A", "T"), baseOnly=TRUE, pct=FALSE)
+) %>% as.data.frame()
+rownames(contentTable) <- c("CG", "TG", "CT", "AC", "AG", "AT")
+contentTable %>% kbl() %>% kable_minimal(full_width=F)
+```
+
+# Exploring pattern contents in human and cow sequences
+
+Occurrence of contiguous nucleotides (called "patterns" throughout this package) can also be characterized. As with base content, the content of these patterns can be found either for an individual `Biostring` sequence, or compared between a set of sequences. Unlike base contents, these are not proportions or percentages but are instead presented as ratios of observed to expected counts.
+
+### Pattern content of X chromosomes
+
+Occurrences of CG dinucleotides are markers of CpG islands which are important features of a sequence for researchers to identify. Contiguous CG patterns being concentrated in these sites therefore makes the count of their occurrences less than what would otherwise be expected, as seen in the ratios found using **getPatternContent** below for the X chromosome in humans and cows both showing that observed occurrences are around 1/5 of what would statistically be expected.
+
+```{r}
+getPatternContent(Hsapiens.X, "CG", baseOnly=TRUE)
+getPatternContent(Btaurus.X, "CG", baseOnly=TRUE)
+```
+
+### Comparing pattern content in a set of sequences
+
+As with base contents, we can assess the occurrence of CG dinucleotides in other chromosomes alongside the X chromosome. Other dinucleotide pairs were again provided to examine how their observed to expected ratios compared in each chromosome selected via **comparePatternContent**. We find that the ratio of observed to expected counts of CG patterns is far lower than all other ratios, for all chromosomes. This affirms that contiguous CG dinucleotides are rarely found across both of these mammals' genomes outside of select sites.
+
+```{r}
+Hsapiens.1 <- Hsapiens$chr1
+Btaurus.1 <- Btaurus$chr1
+Hsapiens.2 <- Hsapiens$chr2
+Btaurus.2 <- Btaurus$chr2
+seqs <- list(human.1=Hsapiens.1, human.2=Hsapiens.2, human.X=Hsapiens.X,
+             cow.1=Btaurus.1, cow.2=Btaurus.2, cow.X=Btaurus.X) %>% DNAStringSet()
+contentTable <- bind_rows(
+  comparePatternContent(seqs, "CG", baseOnly=TRUE),
+  comparePatternContent(seqs, "TG", baseOnly=TRUE),
+  comparePatternContent(seqs, "CT", baseOnly=TRUE),
+  comparePatternContent(seqs, "AC", baseOnly=TRUE),
+  comparePatternContent(seqs, "AG", baseOnly=TRUE),
+  comparePatternContent(seqs, "AT", baseOnly=TRUE),
+) %>% as.data.frame()
+rownames(contentTable) <- c("CG", "TG", "CT", "AC", "AG", "AT")
+contentTable %>% kbl() %>% kable_minimal(full_width=F)
+```
+
+# Exploring distributions of contents for windows within human and cow sequences
+
+To obtain more granular assessments of base or pattern contents within a sequence, the user can also specify a window size for characterizing how these contents are distributed. For the two examples below, we specify that the inputted sequence for the human and cow X chromosome be segmented evenly into 1000 bp windows, among which the base and pattern contents will be calculated.
+
+### Distribution of base contents in 1000 bp windows for X chromosomes
+
+We can use the vector output of **windowBaseContent** listing GC content for each 1000 bp window to characterize the distribution of these proportions. The histograms below show that this proportion is centered around 0.4 for the X chromosomes in both humans and cows.
+
+```{r}
+human.X.pCG <- windowBaseContent(Hsapiens.X, 1000, c("C", "G"), zero.rm=TRUE, pct=FALSE)
+cow.X.pCG <- windowBaseContent(Btaurus.X, 1000, c("C", "G"), zero.rm=TRUE, pct=FALSE)
+
+par(mfrow=c(2,1))
+human.X.pCG %>% hist(breaks=100, main="Human X chromosome GC base content")
+cow.X.pCG %>% hist(breaks=100, main="Cow X chromosome GC base content")
+```
+
+### Distribution of pattern contents in 1000 bp windows for X chromosoms
+
+Using the vector output of **windowPatternContent**, the distribution can again be characterized for the ratio of CG dinucleotide observed to expected counts for each 1000 bp window. Using logged ratios, we observe that the distribution of these ratios are strongly right skewed, indicating that the occurence of CG's are highly concentrated in a small number of 1000 bp windows but otherwise sparse in most other windows. 
+
+```{r}
+human.X.logObsExpCG <- windowPatternContent(Hsapiens.X, 1000, "CG", na.rm=TRUE, log=TRUE)
+cow.X.logObsExpCG <- windowPatternContent(Btaurus.X, 1000, "CG", na.rm=TRUE, log=TRUE)
+
+par(mfrow=c(2,1))
+human.X.logObsExpCG %>% hist(breaks=100, main="Human X chromosome CG dinucleotide log obs/expected ratios")
+cow.X.logObsExpCG %>% hist(breaks=100, main="Cow X chromosome CG dinucleotide log obs/expected ratios")
+```
+
+# Base and pattern content across the entire humans genome
+
+We can also demonstrate that the functionality of comparing base or pattern content can be scaled for entire genomes. Using all chromosome available in a *Homo sapiens* genome provided by `BSgenome`, we can assess how GC content or ratio of observed to expected CG dinucleotide counts vary across all sequences in a genome, as depicted in the histograms below.  
+
+```{r}
+Hsapiens.GCbasecontent <- compareBaseContent(Hsapiens, c("C", "G"), baseOnly=TRUE, pct=FALSE)
+Hsapiens.CGpatterncontent <- comparePatternContent(Hsapiens, "CG", baseOnly=TRUE)
+
+par(mfrow=c(2,1))
+Hsapiens.GCbasecontent %>% hist(breaks=50, main="GC content across all human chromosomes")
+Hsapiens.CGpatterncontent %>% hist(breaks=50, main="CG dinucleotide obs/expected ratios across all human chromosomes")
 ```

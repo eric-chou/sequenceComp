@@ -2,8 +2,8 @@
 title: "Demonstration of sequenceComp"
 author: "Eric Chou"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
-# output: rmarkdown::html_vignette
-output: pdf_document
+output: rmarkdown::html_vignette
+# output: pdf_document
 vignette: >
   %\VignetteIndexEntry{introduction}
   %\VignetteEngine{knitr::rmarkdown}
